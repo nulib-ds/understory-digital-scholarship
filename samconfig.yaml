@@ -1,0 +1,46 @@
+# Northwestern University Libraries' Digital Scholarship Understory: this
+# instance's whole configuration. `sam deploy` reads it from this folder, next
+# to understory.yml (the release it runs) and branding/.
+#
+# It replaces production-understory, and takes over its hostnames
+# (iiif-, images- and admin-understory.dc.library.northwestern.edu), so the
+# documents restored from production need no rewriting. Until that swap the
+# domain stays empty: production still holds the names. See RUNBOOK.md.
+#
+# Name every parameter, empty ones included: one left out keeps whatever value
+# the stack was last given. Write an empty value as Key="".
+version: 1.0
+default:
+  deploy:
+    parameters:
+      stack_name: understory-digital-scholarship
+      region: us-east-1
+      template_file: understory.yml
+      resolve_s3: true
+      s3_prefix: understory-digital-scholarship
+      confirm_changeset: true
+      capabilities:
+        - CAPABILITY_IAM
+        - CAPABILITY_AUTO_EXPAND
+      tags:
+        - Project=understory
+      parameter_overrides:
+        # Invited as the first administrator on the first deploy. Set it to
+        # the address of whoever runs that deploy (RUNBOOK.md, step 2).
+        - AdminEmail=""
+        - InstitutionName="Northwestern University Libraries"
+        - AccentColor=purple
+        - SearchMaxOcu=2
+        # The stack name is 30 characters, past search's 27-character limit,
+        # so the collection has a name of its own. Never change it: that
+        # replaces the collection.
+        - SearchCollectionName=understory-ds
+        - SearchIndexPrefix=""
+        - ProjectName=understory
+        # Empty until the swap (RUNBOOK.md, step 6). After it, BaseDomainName
+        # is dc.library.northwestern.edu, and CertificateArn and HostedZoneId
+        # are left out of this file, so the stack keeps the values the swap
+        # gave it: they identify the AWS account, and this repo holds none.
+        - BaseDomainName=""
+        - CertificateArn=""
+        - HostedZoneId=""
