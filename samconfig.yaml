@@ -25,8 +25,9 @@ default:
       tags:
         - Project=understory
       parameter_overrides:
-        # Invited as the first administrator on the first deploy. Set it to
-        # the address of whoever runs that deploy (RUNBOOK.md, step 2).
+        # Invited as the first administrator on the first deploy, and read on no
+        # other. Never committed with a person's address: RUNBOOK.md, step 2,
+        # fills it in locally for that one deploy.
         - AdminEmail=""
         - InstitutionName="Northwestern University Libraries"
         - AccentColor=purple

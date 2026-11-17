@@ -41,8 +41,10 @@ It should say `understory.yml is Understory v1.0.0, unmodified.`
 
 ## 2. Name yourself the first admin
 
-Set `AdminEmail` in `samconfig.yaml` to your own address, and commit it.
-Cognito emails it a temporary password when the stack is created.
+Set `AdminEmail` in `samconfig.yaml` to your own address, locally, and **do
+not commit it**: a person's address does not belong in the repo, which may be
+public. Cognito emails it a temporary password when step 3 creates the stack.
+`AdminEmail` is read only then, so set it back to `""` right after step 3.
 
 ## 3. Create the stack, without a domain
 
@@ -192,7 +194,8 @@ stack, its deploy role, can go with it.
 1. Deploy `github-deploy-role.yml` in the production account, with
    `GitHubRepository=nulib-ds/understory-digital-scholarship`.
 2. In this repo, create a `production` environment allowing only `main`.
-3. Set the repository variables `AWS_DEPLOY_ROLE_ARN` (that stack's output),
+3. Set the repository secret `AWS_DEPLOY_ROLE_ARN` (that stack's output; a
+   secret because it carries the account id), and the variables
    `AWS_REGION=us-east-1` and `UNDERSTORY_RELEASES=s3://understory-releases-{region}`.
 
 Every push to `main` then deploys, after `scripts/verify`.
