@@ -37,7 +37,7 @@ Step 6 takes the public hostnames down for about half an hour.
 scripts/verify
 ```
 
-It should say `understory.yml is Understory v1.0.0, unmodified.`
+It should say `understory.yml is Understory v1.0.1, unmodified.`
 
 ## 2. Name yourself the first admin
 
@@ -193,9 +193,14 @@ stack, its deploy role, can go with it.
 
 1. Deploy `github-deploy-role.yml` in the production account, with
    `GitHubRepository=nulib-ds/understory-digital-scholarship`.
-2. In this repo, create a `production` environment allowing only `main`.
+2. In this repo, create a `production` environment allowing only `main`. If
+   one exists already, made by an old run of the workflow, it has no branch
+   rule: add the rule before going on.
 3. Set the repository secret `AWS_DEPLOY_ROLE_ARN` (that stack's output; a
-   secret because it carries the account id), and the variables
-   `AWS_REGION=us-east-1` and `UNDERSTORY_RELEASES=s3://understory-releases-{region}`.
+   secret because it carries the account id), and the variable
+   `AWS_REGION=us-east-1`. `UNDERSTORY_RELEASES=s3://understory-releases-{region}`
+   is set already, so that pull requests skip the anonymous release check
+   while the release bucket is private.
 
-Every push to `main` then deploys, after `scripts/verify`.
+Every push to `main` then deploys, after `scripts/verify`. Until `AWS_REGION`
+is set, the deploy job is skipped.
