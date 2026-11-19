@@ -2,10 +2,9 @@
 # instance's whole configuration. `sam deploy` reads it from this folder, next
 # to understory.yml (the release it runs) and branding/.
 #
-# It replaces production-understory, and takes over its hostnames
+# It replaced production-understory on 2026-11-19, and took over its hostnames
 # (iiif-, images- and admin-understory.dc.library.northwestern.edu), so the
-# documents restored from production need no rewriting. Until that swap the
-# domain stays empty: production still holds the names. See RUNBOOK.md.
+# documents restored from production needed no rewriting. See RUNBOOK.md.
 #
 # Name every parameter, empty ones included: one left out keeps whatever value
 # the stack was last given. Write an empty value as Key="".
@@ -38,10 +37,9 @@ default:
         - SearchCollectionName=understory-ds
         - SearchIndexPrefix=""
         - ProjectName=understory
-        # Empty until the swap (RUNBOOK.md, step 6). After it, BaseDomainName
-        # is dc.library.northwestern.edu, and CertificateArn and HostedZoneId
-        # are left out of this file, so the stack keeps the values the swap
-        # gave it: they identify the AWS account, and this repo holds none.
-        - BaseDomainName=""
-        - CertificateArn=""
-        - HostedZoneId=""
+        # Never empty this: every IIIF id embeds the host, and an empty domain
+        # takes the three hostnames down. CertificateArn and HostedZoneId are
+        # left out on purpose, so the stack keeps the values the swap gave it
+        # (RUNBOOK.md, step 6): they identify the AWS account, and this repo
+        # holds none.
+        - BaseDomainName=dc.library.northwestern.edu
